@@ -19,12 +19,14 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../swift-rfc-3986"),
+        .package(path: "../swift-rfc-4648"),
     ],
     targets: [
         .target(
             name: "URIType",
             dependencies: [
-                .product(name: "RFC 3986", package: "swift-rfc-3986")
+                .product(name: "RFC 3986", package: "swift-rfc-3986"),
+                .product(name: "RFC_4648", package: "swift-rfc-4648")
             ]
         ),
         .testTarget(
