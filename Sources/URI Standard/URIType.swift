@@ -21,7 +21,7 @@ import RFC_4648
 ///
 /// Example:
 /// ```swift
-/// import URI Standard
+/// import URI_Standard
 ///
 /// let uri = try URI("https://example.com/path")
 /// print(uri.scheme?.value)  // "https"
