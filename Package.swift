@@ -26,7 +26,7 @@ let package = Package(
             name: "URI Standard",
             dependencies: [
                 .product(name: "RFC 3986", package: "swift-rfc-3986"),
-                .product(name: "RFC_4648", package: "swift-rfc-4648")
+                .product(name: "RFC 4648", package: "swift-rfc-4648")
             ]
         ),
         .testTarget(
