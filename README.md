@@ -1,17 +1,17 @@
-# URIType
+# URI Standard
 
 Unified URI type composing RFC 3986 and related URI specifications.
 
 ## Overview
 
-`URIType` is a pure Swift package that composes URI-related RFC implementations into a clean, unified API. It provides a composition layer over `swift-rfc-3986` without adding Foundation dependencies.
+`URI Standard` is a pure Swift package that composes URI-related RFC implementations into a clean, unified API. It provides a composition layer over `swift-rfc-3986` without adding Foundation dependencies.
 
 ## Architecture
 
 This package is part of a three-layer architecture:
 
 1. **swift-rfc-3986**: Pure RFC 3986 implementation (no Foundation)
-2. **swift-uri-type**: Composition layer (THIS PACKAGE - no Foundation)
+2. **swift-uri-standard**: Composition layer (THIS PACKAGE - no Foundation)
 3. **coenttb/swift-uri**: Foundation integration layer
 
 ## Features
@@ -30,7 +30,7 @@ This package is part of a three-layer architecture:
 ### Creating URIs
 
 ```swift
-import URIType
+import URI_Standard
 
 // Create a URI
 let uri = try URI("https://example.com/path")
@@ -69,7 +69,7 @@ Add to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-standards/swift-uri-type.git", from: "1.0.0")
+    .package(url: "https://github.com/swift-standards/swift-uri-standard.git", from: "1.0.0")
 ]
 ```
 

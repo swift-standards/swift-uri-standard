@@ -4,17 +4,17 @@
 import PackageDescription
 
 let package = Package(
-    name: "URIType",
+    name: "swift-uri-standard",
     platforms: [
-        .macOS(.v14),
-        .iOS(.v17),
-        .tvOS(.v17),
-        .watchOS(.v10)
+        .macOS(.v15),
+        .iOS(.v18),
+        .tvOS(.v18),
+        .watchOS(.v11)
     ],
     products: [
         .library(
-            name: "URIType",
-            targets: ["URIType"]
+            name: "URI Standard",
+            targets: ["URI Standard"]
         ),
     ],
     dependencies: [
@@ -23,15 +23,15 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "URIType",
+            name: "URI Standard",
             dependencies: [
                 .product(name: "RFC 3986", package: "swift-rfc-3986"),
                 .product(name: "RFC_4648", package: "swift-rfc-4648")
             ]
         ),
         .testTarget(
-            name: "URITypeTests",
-            dependencies: ["URIType"]
+            name: "URI Standard Tests",
+            dependencies: ["URI Standard"]
         ),
     ],
     swiftLanguageModes: [.v6]

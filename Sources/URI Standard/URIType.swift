@@ -1,4 +1,4 @@
-// URIType
+// URI Standard
 // Unified URI type composing RFC 3986 and related URI specifications
 //
 // This package composes URI-related RFC implementations into a unified type.
@@ -6,7 +6,7 @@
 //
 // Architecture:
 // - swift-rfc-3986: Pure RFC 3986 implementation
-// - swift-uri-type: Composition layer (THIS PACKAGE)
+// - swift-uri-standard: Composition layer (THIS PACKAGE)
 // - coenttb/swift-uri: Foundation integration layer
 
 @_exported import RFC_3986
@@ -21,7 +21,7 @@ import RFC_4648
 ///
 /// Example:
 /// ```swift
-/// import URIType
+/// import URI Standard
 ///
 /// let uri = try URI("https://example.com/path")
 /// print(uri.scheme?.value)  // "https"
