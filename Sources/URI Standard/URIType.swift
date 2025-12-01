@@ -109,7 +109,8 @@ public func percentEncode(
             // Encode as UTF-8 bytes and percent-encode each byte using RFC 4648 hex
             for byte in String(character).utf8 {
                 result.append("%")
-                result.append(String(hexEncoding: [byte], uppercase: true))
+                let hexBytes: [UInt8] = RFC_4648.Base16.encode([byte], uppercase: true)
+                result.append(String(decoding: hexBytes, as: UTF8.self))
             }
         }
     }
