@@ -132,8 +132,7 @@ public func percentDecode(_ string: String) -> String {
     while index < string.endIndex {
         if string[index] == "%",
            let nextIndex = string.index(index, offsetBy: 1, limitedBy: string.endIndex),
-           let thirdIndex = string.index(index, offsetBy: 3, limitedBy: string.endIndex)
-        {
+           let thirdIndex = string.index(index, offsetBy: 3, limitedBy: string.endIndex) {
             let hexString = String(string[nextIndex..<thirdIndex])
             if let decoded = [UInt8](hexEncoded: hexString), decoded.count == 1 {
                 bytes.append(decoded[0])
@@ -165,8 +164,7 @@ public func normalizePercentEncoding(_ string: String) -> String {
     while index < string.endIndex {
         if string[index] == "%",
            let nextIndex = string.index(index, offsetBy: 1, limitedBy: string.endIndex),
-           let thirdIndex = string.index(index, offsetBy: 3, limitedBy: string.endIndex)
-        {
+           let thirdIndex = string.index(index, offsetBy: 3, limitedBy: string.endIndex) {
             let hexString = String(string[nextIndex..<thirdIndex])
 
             // Uppercase the hex digits using RFC 4648
