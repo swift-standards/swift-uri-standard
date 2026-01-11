@@ -18,8 +18,8 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-standards/swift-rfc-3986", from: "0.3.3"),
-        .package(url: "https://github.com/swift-standards/swift-rfc-4648", from: "0.5.3"),
+        .package(path: "../swift-rfc-3986"),
+        .package(path: "../swift-rfc-4648"),
     ],
     targets: [
         .target(
