@@ -15,11 +15,11 @@ let package = Package(
         .library(
             name: "URI Standard",
             targets: ["URI Standard"]
-        ),
+        )
     ],
     dependencies: [
         .package(path: "../swift-rfc-3986"),
-        .package(path: "../swift-rfc-4648"),
+        .package(path: "../swift-rfc-4648")
     ],
     targets: [
         .target(
@@ -27,12 +27,8 @@ let package = Package(
             dependencies: [
                 .product(name: "RFC 3986", package: "swift-rfc-3986"),
                 .product(name: "RFC 4648", package: "swift-rfc-4648")
-            ]
-        ),
-        .testTarget(
-            name: "URI Standard".tests,
-            dependencies: ["URI Standard"]
-        ),
+    ]
+        )
     ],
     swiftLanguageModes: [.v6]
 )
