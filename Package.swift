@@ -28,7 +28,13 @@ let package = Package(
                 .product(name: "RFC 3986", package: "swift-rfc-3986"),
                 .product(name: "RFC 4648", package: "swift-rfc-4648")
     ]
-        )
+        ),
+        .testTarget(
+            name: "URI Standard Tests",
+            dependencies: [
+                "URI Standard",
+            ]
+        ),
     ],
     swiftLanguageModes: [.v6]
 )
@@ -44,6 +50,7 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
         .enableUpcomingFeature("MemberImportVisibility"),
+        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
         .enableExperimentalFeature("Lifetimes"),
         .enableExperimentalFeature("SuppressedAssociatedTypes"),
         .enableExperimentalFeature("SuppressedAssociatedTypesWithDefaults"),
