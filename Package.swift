@@ -18,8 +18,8 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(path: "../swift-rfc-3986"),
-        .package(path: "../swift-rfc-4648")
+        .package(path: "../../swift-ietf/swift-rfc-3986"),
+        .package(path: "../../swift-ietf/swift-rfc-4648")
     ],
     targets: [
         .target(
