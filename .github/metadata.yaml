@@ -1,0 +1,9 @@
+# .github/metadata.yaml
+# Triaged by AI-assisted bulk pass (2026-04-29).
+description: "URI meta-package combining RFC 3986 and RFC 3987 in Swift."
+topics:
+  - standards
+  - uri
+  - iri
+  - web-standards
+homepage: "https://swift-institute.org"
