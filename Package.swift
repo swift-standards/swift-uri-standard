@@ -15,7 +15,11 @@ let package = Package(
         .library(
             name: "URI Standard",
             targets: ["URI Standard"]
-        )
+        ),
+        .library(
+            name: "URI Standard Library Integration",
+            targets: ["URI Standard Library Integration"]
+        ),
     ],
     dependencies: [
         .package(path: "../../swift-ietf/swift-rfc-3986"),
@@ -28,6 +32,13 @@ let package = Package(
                 .product(name: "RFC 3986", package: "swift-rfc-3986"),
                 .product(name: "RFC 4648", package: "swift-rfc-4648")
     ]
+        ),
+        .target(
+            name: "URI Standard Library Integration",
+            dependencies: [
+                "URI Standard",
+                .product(name: "RFC 3986", package: "swift-rfc-3986"),
+            ]
         ),
         .testTarget(
             name: "URI Standard Tests",
