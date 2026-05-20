@@ -11,6 +11,8 @@
 
 @_exported import RFC_3986
 import RFC_4648
+import ASCII_Primitives
+import Byte_Primitives
 
 // MARK: - Unified URI Namespace
 
@@ -109,8 +111,8 @@ public func percentEncode(
             // Encode as UTF-8 bytes and percent-encode each byte using RFC 4648 hex
             for byte in String(character).utf8 {
                 result.append("%")
-                let hexBytes: [UInt8] = RFC_4648.Base16.encode([byte], uppercase: true)
-                result.append(String(decoding: hexBytes, as: UTF8.self))
+                let hexCodes: [ASCII.Code] = RFC_4648.Base16.encode([Byte(byte)], uppercase: true)
+                result.append(String(decoding: hexCodes, as: UTF8.self))
             }
         }
     }
@@ -134,8 +136,8 @@ public func percentDecode(_ string: String) -> String {
             let nextIndex = string.index(index, offsetBy: 1, limitedBy: string.endIndex),
             let thirdIndex = string.index(index, offsetBy: 3, limitedBy: string.endIndex) {
             let hexString = String(string[nextIndex..<thirdIndex])
-            if let decoded = [UInt8](hexEncoded: hexString), decoded.count == 1 {
-                bytes.append(decoded[0])
+            if let decoded = [Byte](hexEncoded: hexString), decoded.count == 1 {
+                bytes.append(decoded[0].underlying)
                 index = thirdIndex
                 continue
             }
@@ -171,8 +173,8 @@ public func normalizePercentEncoding(_ string: String) -> String {
             let uppercasedHex = hexString.uppercased()
 
             // Check if this represents an unreserved character
-            if let bytes = [UInt8](hexEncoded: uppercasedHex), bytes.count == 1 {
-                let scalar = Unicode.Scalar(bytes[0])
+            if let bytes = [Byte](hexEncoded: uppercasedHex), bytes.count == 1 {
+                let scalar = Unicode.Scalar(bytes[0].underlying)
                 let character = Character(scalar)
 
                 // If it's unreserved, decode it
