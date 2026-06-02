@@ -22,8 +22,8 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../../swift-ietf/swift-rfc-3986"),
-        .package(path: "../../swift-ietf/swift-rfc-4648")
+        .package(url: "https://github.com/swift-ietf/swift-rfc-3986.git", branch: "main"),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-4648.git", branch: "main")
     ],
     targets: [
         .target(
