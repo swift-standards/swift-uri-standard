@@ -69,7 +69,7 @@ Add to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-standards/swift-uri-standard.git", from: "1.0.0")
+    .package(url: "https://github.com/swift-standards/swift-uri-standard.git", from: "0.1.4")
 ]
 ```
 
@@ -90,5 +90,5 @@ Apache 2.0
 
 ## Related Packages
 
-- [swift-rfc-3986](https://github.com/swift-standards/swift-rfc-3986) - RFC 3986 implementation
-- [swift-uri](https://github.com/coenttb/swift-uri) - Foundation integration layer
+- [swift-rfc-3986](https://github.com/swift-ietf/swift-rfc-3986) - RFC 3986 implementation
+- [swift-uri](https://github.com/swift-foundations/swift-uri) - Foundation integration layer
