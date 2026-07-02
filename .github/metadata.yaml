@@ -1,6 +1,6 @@
 # .github/metadata.yaml
 # Triaged by AI-assisted bulk pass (2026-04-29).
-description: "URI meta-package combining RFC 3986 and RFC 3987 in Swift."
+description: "Unified URI type composing RFC 3986 with RFC 4648 encodings for Swift."
 topics:
   - standards
   - uri
