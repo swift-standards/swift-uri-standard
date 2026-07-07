@@ -9,10 +9,10 @@
 // - swift-uri-standard: Composition layer (THIS PACKAGE)
 // - coenttb/swift-uri: Foundation integration layer
 
-@_exported import RFC_3986
-import RFC_4648
 import ASCII_Primitives
 import Byte_Primitives
+@_exported import RFC_3986
+import RFC_4648
 
 // MARK: - Unified URI Namespace
 
@@ -134,7 +134,8 @@ public func percentDecode(_ string: String) -> String {
     while index < string.endIndex {
         if string[index] == "%",
             let nextIndex = string.index(index, offsetBy: 1, limitedBy: string.endIndex),
-            let thirdIndex = string.index(index, offsetBy: 3, limitedBy: string.endIndex) {
+            let thirdIndex = string.index(index, offsetBy: 3, limitedBy: string.endIndex)
+        {
             let hexString = String(string[nextIndex..<thirdIndex])
             if let decoded = [Byte](hexEncoded: hexString), decoded.count == 1 {
                 bytes.append(decoded[0].underlying)
@@ -166,7 +167,8 @@ public func normalizePercentEncoding(_ string: String) -> String {
     while index < string.endIndex {
         if string[index] == "%",
             let nextIndex = string.index(index, offsetBy: 1, limitedBy: string.endIndex),
-            let thirdIndex = string.index(index, offsetBy: 3, limitedBy: string.endIndex) {
+            let thirdIndex = string.index(index, offsetBy: 3, limitedBy: string.endIndex)
+        {
             let hexString = String(string[nextIndex..<thirdIndex])
 
             // Uppercase the hex digits using RFC 4648
