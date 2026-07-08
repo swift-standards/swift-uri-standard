@@ -23,7 +23,7 @@ extension RFC_3986.URI: @retroactive ExpressibleByStringLiteral {
     /// whose validity cannot be guaranteed at compile time.
     @inlinable
     public init(stringLiteral value: Swift.String) {
-        do {
+        do throws(RFC_3986.Error) {
             self = try RFC_3986.URI(value)
         } catch {
             fatalError("URI literal failed to parse: \(value): \(error)")
