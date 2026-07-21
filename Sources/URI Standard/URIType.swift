@@ -9,10 +9,8 @@
 // - swift-uri-standard: Composition layer (THIS PACKAGE)
 // - coenttb/swift-uri: Foundation integration layer
 
-import ASCII_Primitives
-import Byte_Primitives
 @_exported import RFC_3986
-import RFC_4648
+@_exported import RFC_3987
 
 // MARK: - Unified URI Namespace
 
@@ -30,6 +28,12 @@ import RFC_4648
 /// print(uri.host?.rawValue) // "example.com"
 /// ```
 public typealias URI = RFC_3986.URI
+
+/// Internationalized Resource Identifier per RFC 3987
+///
+/// Converged from swift-rfc-3987; this package delegates rather than
+/// reimplementing the IRI grammar.
+public typealias IRI = RFC_3987.IRI
 
 // MARK: - Re-export Core Types
 
@@ -89,118 +93,11 @@ public func isValidHTTP(_ string: String) -> Bool {
 /// Character sets defined in RFC 3986
 public typealias CharacterSets = Set<Character>.URI
 
-/// Percent-encodes a string according to RFC 3986
-///
-/// Characters not in the allowed set are encoded as `%HH` where HH is
-/// the hexadecimal representation of the octet (uppercase per RFC 3986 Section 6.2.2.2).
-/// Uses RFC 4648 hex encoding for the byte-to-hex conversion.
-///
-/// - Parameters:
-///   - string: The string to encode
-///   - allowedCharacters: The set of characters that should not be encoded
-/// - Returns: The percent-encoded string with UPPERCASE hex
-public func percentEncode(
-    _ string: String,
-    allowing allowedCharacters: Set<Character> = Set<Character>.uri.unreserved
-) -> String {
-    var result = ""
-    for character in string {
-        if allowedCharacters.contains(character) {
-            result.append(character)
-        } else {
-            // Encode as UTF-8 bytes and percent-encode each byte using RFC 4648 hex
-            for byte in String(character).utf8 {
-                result.append("%")
-                let hexCodes: [ASCII.Code] = RFC_4648.Base16.encode([Byte(byte)], uppercase: true)
-                result.append(String(decoding: hexCodes, as: UTF8.self))
-            }
-        }
-    }
-    return result
-}
-
-/// Decodes a percent-encoded string according to RFC 3986
-///
-/// Replaces percent-encoded octets (`%HH`) with their corresponding characters.
-/// Properly handles multi-byte UTF-8 sequences.
-/// Uses RFC 4648 hex decoding for the hex-to-byte conversion.
-///
-/// - Parameter string: The percent-encoded string to decode
-/// - Returns: The decoded string
-public func percentDecode(_ string: String) -> String {
-    var bytes: [UInt8] = []
-    var index = string.startIndex
-
-    while index < string.endIndex {
-        if string[index] == "%",
-            let nextIndex = string.index(index, offsetBy: 1, limitedBy: string.endIndex),
-            let thirdIndex = string.index(index, offsetBy: 3, limitedBy: string.endIndex)
-        {
-            let hexString = String(string[nextIndex..<thirdIndex])
-            if let decoded = [Byte](hexEncoded: hexString), decoded.count == 1 {
-                bytes.append(decoded[0].underlying)
-                index = thirdIndex
-                continue
-            }
-        }
-        // Not a valid percent-encoded sequence, append the character's UTF-8 bytes
-        for byte in String(string[index]).utf8 {
-            bytes.append(byte)
-        }
-        index = string.index(after: index)
-    }
-
-    return String(decoding: bytes, as: UTF8.self)
-}
-
-/// Normalizes percent-encoding per RFC 3986 Section 6.2.2.2
-///
-/// Uppercase hexadecimal digits in percent-encoded octets and
-/// decode any percent-encoded unreserved characters.
-///
-/// - Parameter string: The string to normalize
-/// - Returns: The normalized string
-public func normalizePercentEncoding(_ string: String) -> String {
-    var result = ""
-    var index = string.startIndex
-
-    while index < string.endIndex {
-        if string[index] == "%",
-            let nextIndex = string.index(index, offsetBy: 1, limitedBy: string.endIndex),
-            let thirdIndex = string.index(index, offsetBy: 3, limitedBy: string.endIndex)
-        {
-            let hexString = String(string[nextIndex..<thirdIndex])
-
-            // Uppercase the hex digits using RFC 4648
-            let uppercasedHex = hexString.uppercased()
-
-            // Check if this represents an unreserved character
-            if let bytes = [Byte](hexEncoded: uppercasedHex), bytes.count == 1 {
-                let scalar = Unicode.Scalar(bytes[0].underlying)
-                let character = Character(scalar)
-
-                // If it's unreserved, decode it
-                if Set<Character>.uri.unreserved.contains(character) {
-                    result.append(character)
-                } else {
-                    // Keep it encoded with uppercase hex
-                    result.append("%")
-                    result.append(uppercasedHex)
-                }
-            } else {
-                // Invalid encoding, keep as-is
-                result.append(contentsOf: string[index..<thirdIndex])
-            }
-
-            index = thirdIndex
-        } else {
-            result.append(string[index])
-            index = string.index(after: index)
-        }
-    }
-
-    return result
-}
+// Percent-encoding, decoding, and normalization are provided by the
+// re-exported RFC_3986 engine: `RFC_3986.percentEncode(_:allowing:)`,
+// `RFC_3986.percentDecode(_:)`, `RFC_3986.normalizePercentEncoding(_:)`,
+// and the `String.percentEncoded(allowing:)` / `String.percentDecoded()`
+// conveniences. This package deliberately does not reimplement them.
 
 // MARK: - Path Normalization
 
