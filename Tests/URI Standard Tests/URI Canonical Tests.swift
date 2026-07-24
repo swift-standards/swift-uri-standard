@@ -25,7 +25,7 @@ struct `URI Canonical Tests` {
         }
 
         @Test
-        func `canonical removes an existing port when host has none`() throws(URI.Canonicalization.Error) {
+        func `canonical removes the port when host omits it`() throws(URI.Canonicalization.Error) {
             let uri = URI(unchecked: "https://example.com:8080/path")
             let result = try uri.canonical(host: "canonical.com")
 
@@ -33,7 +33,7 @@ struct `URI Canonical Tests` {
         }
 
         @Test
-        func `canonical preserves an explicitly configured default port`() throws(URI.Canonicalization.Error) {
+        func `canonical preserves an explicit default port`() throws(URI.Canonicalization.Error) {
             let uri = URI(unchecked: "https://example.com/path")
             let result = try uri.canonical(host: "canonical.com:443")
 
@@ -86,7 +86,7 @@ struct `URI Canonical Tests` {
     @Suite
     struct Integration {
         @Test
-        func `canonical replaces host and preserves URI components`() throws(URI.Canonicalization.Error) {
+        func `canonical preserves path query and fragment`() throws(URI.Canonicalization.Error) {
             let uri = URI(unchecked: "https://example.com/path?query=value#fragment")
             let result = try uri.canonical(host: "canonical.com")
 
