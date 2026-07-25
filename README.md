@@ -1,5 +1,7 @@
 # URI Standard
 
+![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
+
 Unified URI type composing RFC 3986 and related URI specifications.
 
 ## Overview
