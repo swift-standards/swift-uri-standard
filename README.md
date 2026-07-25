@@ -75,6 +75,19 @@ dependencies: [
 ]
 ```
 
+Add the product to your target:
+
+```swift
+.target(
+    name: "App",
+    dependencies: [
+        .product(name: "URI Standard", package: "swift-uri-standard")
+    ]
+)
+```
+
+The package also vends `URI Standard Library Integration` for standard-library interoperation.
+
 ## Requirements
 
 - Swift 6.2+
