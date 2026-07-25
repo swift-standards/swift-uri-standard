@@ -1,0 +1,6 @@
+version: 1
+builder:
+  configs:
+  - documentation_targets:
+    - URI Standard
+    - URI Standard Library Integration
