@@ -2,7 +2,7 @@ import Testing
 
 @testable import URI_Standard
 
-@Test func percentCodingDelegatesToRFC3986() {
+@Test func `percent coding delegates to RFC 3986`() {
     #expect(RFC_3986.percentEncode("hello world") == "hello%20world")
     #expect(RFC_3986.percentDecode("hello%20world") == "hello world")
     #expect(RFC_3986.normalizePercentEncoding("%7e%41") == "~A")
@@ -10,7 +10,7 @@ import Testing
     #expect("hello%20world".percentDecoded() == "hello world")
 }
 
-@Test func uriAndIRIAliasesResolve() throws {
+@Test func `URI and IRI aliases resolve`() throws {
     let uri: URI = try URI("https://example.com/path")
     #expect(uri.scheme?.value == "https")
 
