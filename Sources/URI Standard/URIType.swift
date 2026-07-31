@@ -79,7 +79,7 @@ public func isValidURI(_ string: String) -> Bool {
 }
 
 /// Validates if a URI is a valid HTTP(S) URI
-public func isValidHTTP(_ uri: any URIRepresentable) -> Bool {
+public func isValidHTTP(_ uri: some URIRepresentable) -> Bool {
     RFC_3986.isValidHTTP(uri)
 }
 
