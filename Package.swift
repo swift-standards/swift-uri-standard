@@ -1,4 +1,4 @@
-// swift-tools-version: 6.3.3
+// swift-tools-version: 6.4
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,10 +6,10 @@ import PackageDescription
 let package = Package(
     name: "swift-uri-standard",
     platforms: [
-        .macOS("27"),
-        .iOS("27"),
-        .tvOS("27"),
-        .watchOS("27")
+        .macOS(.v27),
+        .iOS(.v27),
+        .tvOS(.v27),
+        .watchOS(.v27),
     ],
     products: [
         .library(
@@ -23,15 +23,15 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/swift-ietf/swift-rfc-3986.git", branch: "main"),
-        .package(url: "https://github.com/swift-ietf/swift-rfc-3987.git", branch: "main")
+        .package(url: "https://github.com/swift-ietf/swift-rfc-3987.git", branch: "main"),
     ],
     targets: [
         .target(
             name: "URI Standard",
             dependencies: [
                 .product(name: "RFC 3986", package: "swift-rfc-3986"),
-                .product(name: "RFC 3987", package: "swift-rfc-3987")
-    ]
+                .product(name: "RFC 3987", package: "swift-rfc-3987"),
+            ]
         ),
         .target(
             name: "URI Standard Library Integration",
@@ -43,7 +43,7 @@ let package = Package(
         .testTarget(
             name: "URI Standard Tests",
             dependencies: [
-                "URI Standard",
+                "URI Standard"
             ]
         ),
     ],
