@@ -1,14 +1,3 @@
-// ===----------------------------------------------------------------------===//
-//
-// This source file is part of the swift-uri-standard open source project
-//
-// Copyright (c) 2026 Coen ten Thije Boonkkamp and the swift-uri-standard project authors
-// Licensed under Apache License v2.0
-//
-// See LICENSE for license information
-//
-// ===----------------------------------------------------------------------===//
-
 import Testing
 import URI_Standard
 

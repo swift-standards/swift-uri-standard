@@ -1,32 +1,11 @@
-// ===----------------------------------------------------------------------===//
-//
-// This source file is part of the swift-uri-standard open source project
-//
-// Copyright (c) 2026 Coen ten Thije Boonkkamp and the swift-uri-standard project authors
-// Licensed under Apache License v2.0
-//
-// See LICENSE for license information
-//
-// ===----------------------------------------------------------------------===//
-
 public import RFC_3986
 
-/// Canonical URI authority replacement for consumers that select one host.
 extension RFC_3986.URI {
     public enum Canonicalization {}
 }
 
 extension RFC_3986.URI {
-    /// Returns `uri` with its authority host replaced by `host`.
-    ///
-    /// The path, query, fragment, and optional scheme are preserved. Omitting a
-    /// port from `host` removes any port from the result. This operation only
-    /// constructs a canonical URI; redirect policy belongs to the HTTP layer.
-    ///
-    /// This is a composed operation on the RFC 3986 URI type; it is distinct
-    /// from RFC 3986 Section 6 syntax-based normalization, which is available
-    /// separately as `normalized()`. Compose them for a fully canonical result:
-    /// `uri.canonical(host:).normalized()`.
+
     public func canonical(
         host: String
     ) throws(RFC_3986.URI.Canonicalization.Error) -> RFC_3986.URI {
