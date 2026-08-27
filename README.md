@@ -106,4 +106,4 @@ Apache 2.0
 ## Related Packages
 
 - [swift-rfc-3986](https://github.com/swift-ietf/swift-rfc-3986) - RFC 3986 implementation
-- [swift-uri](https://github.com/swift-foundations/swift-uri) - Foundation integration layer
+- [swift-uri](https://github.com/swift-compositions/swift-uri) - Composition integration layer
