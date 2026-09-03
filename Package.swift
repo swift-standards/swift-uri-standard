@@ -35,24 +35,19 @@ let package = Package(
         .target(
             name: "URI Standard Library Integration",
             dependencies: [
-                "URI Standard",
+                .target(name: "URI Standard"),
                 .product(name: "RFC 3986", package: "swift-rfc-3986"),
             ]
         ),
         .testTarget(
             name: "URI Standard Tests",
             dependencies: [
-                "URI Standard"
+                .target(name: "URI Standard")
             ]
         ),
     ],
     swiftLanguageModes: [.v6]
 )
-
-extension String {
-    var tests: Self { self + " Tests" }
-    var foundation: Self { self + " Foundation" }
-}
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
     let ecosystem: [SwiftSetting] = [
