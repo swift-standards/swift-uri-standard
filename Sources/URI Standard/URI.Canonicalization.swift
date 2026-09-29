@@ -1,4 +1,7 @@
 public import RFC_3986
+import Byte
+import Byte
+import RFC_3986_Coder
 
 extension RFC_3986.URI {
     public enum Canonicalization {}
@@ -34,7 +37,9 @@ extension RFC_3986.URI {
         if let scheme = self.scheme {
             value += "\(scheme.value):"
         }
-        value += "//\(authority.host.description)"
+        var host: [Byte] = []
+        RFC_3986.URI.Host.serialize(authority.host, into: &host)
+        value += "//\(String(decoding: host, as: UTF8.self))"
         if let port = authority.port {
             value += ":\(port.value)"
         }

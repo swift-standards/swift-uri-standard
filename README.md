@@ -24,8 +24,9 @@ This package is part of a three-layer architecture:
 - ✅ Re-exports RFC 3986 types with simpler names
 - ✅ Full RFC 3986 compliance
 - ✅ Comprehensive validation
-- ✅ Percent encoding/decoding
+- ✅ Byte-based percent encoding/decoding through RFC 3986
 - ✅ Path normalization
+- ✅ Host canonicalization
 
 ## Usage
 
@@ -38,9 +39,9 @@ import URI_Standard
 let uri = try URI("https://example.com/path")
 
 // Access components
-print(uri.scheme?.value)  // "https"
-print(uri.host?.rawValue) // "example.com"
-print(uri.path?.string)   // "/path"
+print(uri.scheme?.value)             // "https"
+print(uri.host?.registeredNameValue) // "example.com"
+print(uri.path?.description)         // "/path"
 ```
 
 ### Validation
@@ -51,16 +52,23 @@ isValidURI("https://example.com")  // true
 isValidHTTP("https://example.com") // true
 ```
 
+### Canonical Host
+
+```swift
+let uri = URI(unchecked: "https://example.com:8080/path")
+let canonical = try uri.canonical(host: "canonical.com:9090")
+// "https://canonical.com:9090/path"
+```
+
 ### Percent Encoding
 
 ```swift
-// Encode strings for URIs
-let encoded = percentEncode("hello world")
-// "hello%20world"
+// Percent coding operates on bytes and is provided by RFC 3986
+let encoded = RFC_3986.percentEncode(Array("hello world".utf8))
+// "hello%20world" as bytes
 
-// Decode percent-encoded strings
-let decoded = percentDecode("hello%20world")
-// "hello world"
+let decoded = RFC_3986.percentDecode(Array("hello%20world".utf8))
+// "hello world" as bytes
 ```
 
 ## Installation
@@ -90,8 +98,8 @@ The package also vends `URI Standard Library Integration` for standard-library i
 
 ## Requirements
 
-- Swift 6.2+
-- macOS 14.0+, iOS 17.0+, tvOS 17.0+, watchOS 10.0+
+- Swift 6.4+
+- macOS 27.0+, iOS 27.0+, tvOS 27.0+, watchOS 27.0+
 - No platform-specific dependencies
 - Pure Swift implementation
 
@@ -105,5 +113,7 @@ Apache 2.0
 
 ## Related Packages
 
-- [swift-rfc-3986](https://github.com/swift-ietf/swift-rfc-3986) - RFC 3986 implementation
+- [swift-rfc-3986](https://github.com/swift-ietf/swift-rfc-3986) - RFC 3986 domain model
+- [swift-rfc-3986-coder](https://github.com/swift-ietf/swift-rfc-3986-coder) - RFC 3986 wire coders
+- [swift-rfc-3987](https://github.com/swift-ietf/swift-rfc-3987) - RFC 3987 IRI model
 - [swift-uri](https://github.com/swift-compositions/swift-uri) - Composition integration layer
