@@ -17,7 +17,7 @@ struct `URI Type Tests` {
         let uri: URI = try URI("https://example.com/path")
         #expect(uri.scheme?.value == "https")
 
-        let iri: IRI = try IRI("https://example.com/寿司")
+        let iri: IRI = IRI("https://example.com/寿司")
         #expect(iri.value.contains("example.com"))
     }
 }
