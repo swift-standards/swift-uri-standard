@@ -1,6 +1,5 @@
 import Byte
 public import RFC_3986
-import RFC_3986_Coder
 
 extension RFC_3986.URI {
     public enum Canonicalization {}
