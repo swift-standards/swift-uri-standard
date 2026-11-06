@@ -9,7 +9,7 @@ struct `URI Canonical Tests` {
         @Test
         func `canonical replaces host and port`() throws(URI.Canonicalization.Error) {
             let uri = URI(unchecked: "https://example.com:8080/path")
-            let result = try uri.canonical(host: "canonical.com:9090")
+            let result = try uri.canonical(authority: URI.Canonicalization.authority("canonical.com:9090"))
 
             #expect(result == "https://canonical.com:9090/path")
         }
@@ -17,7 +17,7 @@ struct `URI Canonical Tests` {
         @Test
         func `canonical removes the port when host omits it`() throws(URI.Canonicalization.Error) {
             let uri = URI(unchecked: "https://example.com:8080/path")
-            let result = try uri.canonical(host: "canonical.com")
+            let result = try uri.canonical(authority: URI.Canonicalization.authority("canonical.com"))
 
             #expect(result == "https://canonical.com/path")
         }
@@ -25,7 +25,7 @@ struct `URI Canonical Tests` {
         @Test
         func `canonical preserves an explicit default port`() throws(URI.Canonicalization.Error) {
             let uri = URI(unchecked: "https://example.com/path")
-            let result = try uri.canonical(host: "canonical.com:443")
+            let result = try uri.canonical(authority: URI.Canonicalization.authority("canonical.com:443"))
 
             #expect(result == "https://canonical.com:443/path")
         }
@@ -33,7 +33,7 @@ struct `URI Canonical Tests` {
         @Test
         func `canonical accepts RFC 3986 IPv6 authority`() throws(URI.Canonicalization.Error) {
             let uri = URI(unchecked: "https://example.com/path")
-            let result = try uri.canonical(host: "[2001:db8::1]:8443")
+            let result = try uri.canonical(authority: URI.Canonicalization.authority("[2001:db8::1]:8443"))
 
             #expect(result == "https://[2001:db8::1]:8443/path")
         }
@@ -46,7 +46,7 @@ struct `URI Canonical Tests` {
             let uri = URI(unchecked: "https://example.com/path")
 
             #expect(throws: URI.Canonicalization.Error.host(.empty)) {
-                try uri.canonical(host: "")
+                try uri.canonical(authority: URI.Canonicalization.authority(""))
             }
         }
 
@@ -55,7 +55,7 @@ struct `URI Canonical Tests` {
             let uri = URI(unchecked: "https://example.com/path")
 
             #expect(throws: URI.Canonicalization.Error.port(.invalid("invalid"))) {
-                try uri.canonical(host: "canonical.com:invalid")
+                try uri.canonical(authority: URI.Canonicalization.authority("canonical.com:invalid"))
             }
         }
 
@@ -64,11 +64,11 @@ struct `URI Canonical Tests` {
             let uri = URI(unchecked: "https://example.com/path")
 
             #expect(throws: URI.Canonicalization.Error.port(.range(0))) {
-                try uri.canonical(host: "canonical.com:0")
+                try uri.canonical(authority: URI.Canonicalization.authority("canonical.com:0"))
             }
 
             #expect(throws: URI.Canonicalization.Error.port(.range(65536))) {
-                try uri.canonical(host: "canonical.com:65536")
+                try uri.canonical(authority: URI.Canonicalization.authority("canonical.com:65536"))
             }
         }
     }
@@ -78,7 +78,7 @@ struct `URI Canonical Tests` {
         @Test
         func `canonical preserves path query and fragment`() throws(URI.Canonicalization.Error) {
             let uri = URI(unchecked: "https://example.com/path?query=value#fragment")
-            let result = try uri.canonical(host: "canonical.com")
+            let result = try uri.canonical(authority: URI.Canonicalization.authority("canonical.com"))
 
             #expect(result == "https://canonical.com/path?query=value#fragment")
         }

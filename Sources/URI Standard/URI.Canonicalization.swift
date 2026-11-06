@@ -8,25 +8,8 @@ extension RFC_3986.URI {
 extension RFC_3986.URI {
 
     public func canonical(
-        host: String
+        authority: RFC_3986.URI.Authority
     ) throws(RFC_3986.URI.Canonicalization.Error) -> RFC_3986.URI {
-        guard !host.isEmpty else {
-            throw .host(.empty)
-        }
-
-        let authority: RFC_3986.URI.Authority
-        do throws(RFC_3986.URI.Authority.Error) {
-            authority = try RFC_3986.URI.Authority(host)
-        } catch {
-            if let port = Self.port(in: host) {
-                if let value = Int(port) {
-                    throw .port(.range(value))
-                }
-                throw .port(.invalid(port))
-            }
-            throw .host(.invalid(host))
-        }
-
         if let port = authority.port, port.value == 0 {
             throw .port(.range(0))
         }
@@ -50,6 +33,30 @@ extension RFC_3986.URI {
         }
 
         return RFC_3986.URI(unchecked: value)
+    }
+}
+
+extension RFC_3986.URI.Canonicalization {
+
+    /// The authority `text` spells as `host` or `host:port`, with the reason it spells none.
+    public static func authority(
+        _ text: String
+    ) throws(RFC_3986.URI.Canonicalization.Error) -> RFC_3986.URI.Authority {
+        guard !text.isEmpty else {
+            throw .host(.empty)
+        }
+
+        do throws(RFC_3986.URI.Authority.Error) {
+            return try RFC_3986.URI.Authority(text)
+        } catch {
+            if let port = Self.port(in: text) {
+                if let value = Int(port) {
+                    throw .port(.range(value))
+                }
+                throw .port(.invalid(port))
+            }
+            throw .host(.invalid(text))
+        }
     }
 
     private static func port(in authority: String) -> String? {

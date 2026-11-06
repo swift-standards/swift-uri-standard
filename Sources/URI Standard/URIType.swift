@@ -39,6 +39,6 @@ public func isValidHTTP(_ string: String) -> Bool {
 
 public typealias CharacterSets = Set<Character>.URI
 
-public func removeDotSegments(from path: String) -> String {
+public func removeDotSegments(from path: RFC_3986.URI.Path) -> RFC_3986.URI.Path {
     RFC_3986.removeDotSegments(from: path)
 }
