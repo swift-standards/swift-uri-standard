@@ -2,85 +2,87 @@ import RFC_3986
 import Testing
 import URI_Standard
 
-@Suite
-struct `URI Canonical Tests` {
+extension `URI Canonical Tests`.`URI Canonical Tests` {
     @Suite
-    struct Unit {
-        @Test
-        func `canonical replaces host and port`() throws(URI.Canonicalization.Error) {
-            let uri = URI(unchecked: "https://example.com:8080/path")
-            let result = try uri.canonical(authority: URI.Canonicalization.authority("canonical.com:9090"))
+    struct `URI Canonical Tests` {
+        @Suite
+        struct Unit {
+            @Test
+            func `canonical replaces host and port`() throws(URI.Canonicalization.Error) {
+                let uri = URI(unchecked: "https://example.com:8080/path")
+                let result = try uri.canonical(authority: URI.Canonicalization.authority("canonical.com:9090"))
 
-            #expect(result == "https://canonical.com:9090/path")
-        }
+                #expect(result == "https://canonical.com:9090/path")
+            }
 
-        @Test
-        func `canonical removes the port when host omits it`() throws(URI.Canonicalization.Error) {
-            let uri = URI(unchecked: "https://example.com:8080/path")
-            let result = try uri.canonical(authority: URI.Canonicalization.authority("canonical.com"))
+            @Test
+            func `canonical removes the port when host omits it`() throws(URI.Canonicalization.Error) {
+                let uri = URI(unchecked: "https://example.com:8080/path")
+                let result = try uri.canonical(authority: URI.Canonicalization.authority("canonical.com"))
 
-            #expect(result == "https://canonical.com/path")
-        }
+                #expect(result == "https://canonical.com/path")
+            }
 
-        @Test
-        func `canonical preserves an explicit default port`() throws(URI.Canonicalization.Error) {
-            let uri = URI(unchecked: "https://example.com/path")
-            let result = try uri.canonical(authority: URI.Canonicalization.authority("canonical.com:443"))
+            @Test
+            func `canonical preserves an explicit default port`() throws(URI.Canonicalization.Error) {
+                let uri = URI(unchecked: "https://example.com/path")
+                let result = try uri.canonical(authority: URI.Canonicalization.authority("canonical.com:443"))
 
-            #expect(result == "https://canonical.com:443/path")
-        }
+                #expect(result == "https://canonical.com:443/path")
+            }
 
-        @Test
-        func `canonical accepts RFC 3986 IPv6 authority`() throws(URI.Canonicalization.Error) {
-            let uri = URI(unchecked: "https://example.com/path")
-            let result = try uri.canonical(authority: URI.Canonicalization.authority("[2001:db8::1]:8443"))
+            @Test
+            func `canonical accepts RFC 3986 IPv6 authority`() throws(URI.Canonicalization.Error) {
+                let uri = URI(unchecked: "https://example.com/path")
+                let result = try uri.canonical(authority: URI.Canonicalization.authority("[2001:db8::1]:8443"))
 
-            #expect(result == "https://[2001:db8::1]:8443/path")
-        }
-    }
-
-    @Suite
-    struct `Edge Case` {
-        @Test
-        func `canonical rejects an empty host`() {
-            let uri = URI(unchecked: "https://example.com/path")
-
-            #expect(throws: URI.Canonicalization.Error.host(.empty)) {
-                try uri.canonical(authority: URI.Canonicalization.authority(""))
+                #expect(result == "https://[2001:db8::1]:8443/path")
             }
         }
 
-        @Test
-        func `canonical rejects a nonnumeric port`() {
-            let uri = URI(unchecked: "https://example.com/path")
+        @Suite
+        struct `Edge Case` {
+            @Test
+            func `canonical rejects an empty host`() {
+                let uri = URI(unchecked: "https://example.com/path")
 
-            #expect(throws: URI.Canonicalization.Error.port(.invalid("invalid"))) {
-                try uri.canonical(authority: URI.Canonicalization.authority("canonical.com:invalid"))
+                #expect(throws: URI.Canonicalization.Error.host(.empty)) {
+                    try uri.canonical(authority: URI.Canonicalization.authority(""))
+                }
+            }
+
+            @Test
+            func `canonical rejects a nonnumeric port`() {
+                let uri = URI(unchecked: "https://example.com/path")
+
+                #expect(throws: URI.Canonicalization.Error.port(.invalid("invalid"))) {
+                    try uri.canonical(authority: URI.Canonicalization.authority("canonical.com:invalid"))
+                }
+            }
+
+            @Test
+            func `canonical rejects an out of range port`() {
+                let uri = URI(unchecked: "https://example.com/path")
+
+                #expect(throws: URI.Canonicalization.Error.port(.range(0))) {
+                    try uri.canonical(authority: URI.Canonicalization.authority("canonical.com:0"))
+                }
+
+                #expect(throws: URI.Canonicalization.Error.port(.range(65536))) {
+                    try uri.canonical(authority: URI.Canonicalization.authority("canonical.com:65536"))
+                }
             }
         }
 
-        @Test
-        func `canonical rejects an out of range port`() {
-            let uri = URI(unchecked: "https://example.com/path")
+        @Suite
+        struct Integration {
+            @Test
+            func `canonical preserves path query and fragment`() throws(URI.Canonicalization.Error) {
+                let uri = URI(unchecked: "https://example.com/path?query=value#fragment")
+                let result = try uri.canonical(authority: URI.Canonicalization.authority("canonical.com"))
 
-            #expect(throws: URI.Canonicalization.Error.port(.range(0))) {
-                try uri.canonical(authority: URI.Canonicalization.authority("canonical.com:0"))
+                #expect(result == "https://canonical.com/path?query=value#fragment")
             }
-
-            #expect(throws: URI.Canonicalization.Error.port(.range(65536))) {
-                try uri.canonical(authority: URI.Canonicalization.authority("canonical.com:65536"))
-            }
-        }
-    }
-
-    @Suite
-    struct Integration {
-        @Test
-        func `canonical preserves path query and fragment`() throws(URI.Canonicalization.Error) {
-            let uri = URI(unchecked: "https://example.com/path?query=value#fragment")
-            let result = try uri.canonical(authority: URI.Canonicalization.authority("canonical.com"))
-
-            #expect(result == "https://canonical.com/path?query=value#fragment")
         }
     }
 }
