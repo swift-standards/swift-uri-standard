@@ -1,5 +1,5 @@
-@_exported public import RFC_3986
-@_exported public import RFC_3987
+public import RFC_3986
+public import RFC_3987
 
 public typealias URI = RFC_3986.URI
 
