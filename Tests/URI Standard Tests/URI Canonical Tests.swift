@@ -42,6 +42,22 @@ struct `URI Canonical Tests` {
     @Suite
     struct `Edge Case` {
         @Test
+        func `canonical keeps the userinfo of the URI`() throws(URI.Canonicalization.Error) {
+            let uri = URI(unchecked: "https://user@example.com/path")
+            let result = try uri.canonical(authority: URI.Canonicalization.authority("canonical.com"))
+
+            #expect(result == "https://user@canonical.com/path")
+        }
+
+        @Test
+        func `canonical takes the userinfo of the authority when it has one`() throws(URI.Canonicalization.Error) {
+            let uri = URI(unchecked: "https://user@example.com/path")
+            let result = try uri.canonical(authority: URI.Canonicalization.authority("other:secret@canonical.com:8443"))
+
+            #expect(result == "https://other:secret@canonical.com:8443/path")
+        }
+
+        @Test
         func `canonical rejects an empty host`() {
             let uri = URI(unchecked: "https://example.com/path")
 

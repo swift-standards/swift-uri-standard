@@ -7,6 +7,10 @@ extension RFC_3986.URI {
 
 extension RFC_3986.URI {
 
+    /// This URI with its host and port replaced by `authority`'s.
+    ///
+    /// The userinfo is kept: `authority`'s when it has one, otherwise this URI's, so
+    /// `https://user@example.com/` becomes `https://user@canonical.com/`.
     public func canonical(
         authority: RFC_3986.URI.Authority
     ) throws(RFC_3986.URI.Canonicalization.Error) -> RFC_3986.URI {
@@ -20,7 +24,11 @@ extension RFC_3986.URI {
         }
         var host: [Byte] = []
         RFC_3986.URI.Host.serialize(authority.host, into: &host)
-        value += "//\(String(decoding: host, as: UTF8.self))"
+        value += "//"
+        if let userinfo = authority.userinfo ?? self.userinfo {
+            value += "\(userinfo.description)@"
+        }
+        value += String(decoding: host, as: UTF8.self)
         if let port = authority.port {
             value += ":\(port.value)"
         }
